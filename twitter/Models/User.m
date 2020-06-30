@@ -10,7 +10,7 @@
 
 @implementation User
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *const)dictionary {
     self = [super init];
     if (self) {
         self.name = dictionary[@"name"];
