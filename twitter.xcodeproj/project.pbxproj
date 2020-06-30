@@ -41,6 +41,7 @@
 		6AD2790520BCC0380085BC29 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		6AD2790720BCC04D0085BC29 /* TimelineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimelineViewController.h; sourceTree = "<group>"; };
 		6AD2790820BCC04D0085BC29 /* TimelineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
+		719A23E824AB933400B7DFB7 /* CustomConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CustomConfig.xcconfig; sourceTree = "<group>"; };
 		71E1E41824AA9B5D00A16183 /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		71E1E41924AA9B5D00A16183 /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		71E1E41B24AA9B6900A16183 /* Tweet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tweet.h; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 		6AD278D720BC4B950085BC29 /* twitter */ = {
 			isa = PBXGroup;
 			children = (
+				719A23E724AB92DA00B7DFB7 /* Configs */,
 				6AD2790320BCC01B0085BC29 /* View Controllers */,
 				6AD278FF20BCBF280085BC29 /* Views */,
 				6AD278F720BCB6900085BC29 /* API */,
@@ -146,6 +148,14 @@
 				6AD2790820BCC04D0085BC29 /* TimelineViewController.m */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		719A23E724AB92DA00B7DFB7 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				719A23E824AB933400B7DFB7 /* CustomConfig.xcconfig */,
+			);
+			path = Configs;
 			sourceTree = "<group>";
 		};
 		8D3B9352D6FC41D4058E12C5 /* Pods */ = {
@@ -285,6 +295,7 @@
 /* Begin XCBuildConfiguration section */
 		6AD278E920BC4B970085BC29 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 719A23E824AB933400B7DFB7 /* CustomConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -343,6 +354,7 @@
 		};
 		6AD278EA20BC4B970085BC29 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 719A23E824AB933400B7DFB7 /* CustomConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

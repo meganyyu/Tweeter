@@ -11,6 +11,8 @@
 
 @interface APIManager : BDBOAuth1SessionManager
 
++ (NSArray *)getKeys;
+
 + (instancetype)shared;
 
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion;

@@ -1,0 +1,19 @@
+//
+//  Development.xcconfig
+//  twitter
+//
+//  Created by meganyu on 6/30/20.
+//  Copyright © 2020 Emerson Malca. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// Keys
+API_CONSUMER_KEY = ""
+API_CONSUMER_SECRET_KEY = ""
+
+// Use `LocalConfig.xcconfig`
+// that includes local overrides for keys if it exists.
+
+#include? "LocalConfig.xcconfig"

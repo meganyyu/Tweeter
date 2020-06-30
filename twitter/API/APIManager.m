@@ -10,14 +10,22 @@
 #import "Tweet.h"
 
 static NSString *const baseURLString = @"https://api.twitter.com";
-static NSString *const consumerKey = @""; // Enter your consumer key here
-static NSString *const consumerSecret = @""; // Enter your consumer secret here
+//static NSString *const consumerKey = @""; // Enter your consumer key here
+//static NSString *const consumerSecret = @""; // Enter your consumer secret here
 
 @interface APIManager()
 
 @end
 
 @implementation APIManager
+
++ (NSArray *)getKeys {
+    NSDictionary *const dictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+    NSString *const consumerKey = [dictionary objectForKey:@"Consumer Key"];
+    NSString *const consumerSecret = [dictionary objectForKey:@"Consumer Secret"];
+    NSArray *const keys = [NSArray arrayWithObjects:consumerKey, consumerSecret, nil];
+    return keys;
+}
 
 + (instancetype)shared {
     static APIManager *sharedManager = nil;
@@ -31,8 +39,8 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
 - (instancetype)init {
     
     NSURL *const baseURL = [NSURL URLWithString:baseURLString];
-    NSString *key = consumerKey;
-    NSString *secret = consumerSecret;
+    NSString *key = [APIManager getKeys][0];
+    NSString *secret = [APIManager getKeys][1];
     // Check for launch arguments override
     if ([[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-key"]) {
         key = [[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-key"];
