@@ -36,7 +36,7 @@
     [self.refreshControl addTarget:self action:@selector(loadTweets) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
     
-    self.tableView.rowHeight = 120;
+    //self.tableView.rowHeight = 120;
 }
 
   // Makes a network request to get updated data
