@@ -62,7 +62,7 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
 }
 
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
-    NSString *const urlString = @"1.1/statuses/home_timeline.json";
+    NSString *const urlString = @"1.1/statuses/home_timeline.json?tweet_mode=extended";
     
     [self GET:urlString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
         NSMutableArray *const tweets  = [Tweet tweetsWithArray:tweetDictionaries];
