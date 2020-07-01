@@ -8,6 +8,9 @@
 
 #import "Tweet.h"
 #import "User.h"
+#import "NSDate+DateTools.h"
+
+#define NUMBER_OF_SECONDS_IN_ONE_HOUR 3600
 
 @implementation Tweet
 
@@ -42,6 +45,7 @@
         formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
         // Convert String to Date
         NSDate *const date = [formatter dateFromString:createdAtOriginalString];
+        self.createdAtDate = date;
         // Configure output format
         formatter.dateStyle = NSDateFormatterShortStyle;
         formatter.timeStyle = NSDateFormatterNoStyle;
@@ -52,13 +56,22 @@
 }
 
 + (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries{
-//    NSLog(@"Reached tweetsWithArray");
     NSMutableArray *tweets = [NSMutableArray array];
     for (NSDictionary *dictionary in dictionaries) {
         Tweet *tweet = [[Tweet alloc] initWithDictionary:dictionary];
         [tweets addObject:tweet];
     }
     return tweets;
+}
+
+- (int)hoursSinceTweet {
+    NSDate *const currentTime = [NSDate date];
+    double secondsSinceTweet = [currentTime timeIntervalSinceDate:self.createdAtDate];
+    return (int) secondsSinceTweet / NUMBER_OF_SECONDS_IN_ONE_HOUR;
+}
+
+- (NSString *)timeAgoCreated {
+    return self.createdAtDate.shortTimeAgoSinceNow;
 }
 
 @end

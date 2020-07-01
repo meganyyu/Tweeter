@@ -58,7 +58,6 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
     if (self) {
         
     }
-//    NSLog(@"Made it here APIManager init");
     return self;
 }
 
@@ -67,7 +66,6 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
     
     [self GET:urlString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
         NSMutableArray *const tweets  = [Tweet tweetsWithArray:tweetDictionaries];
-//        NSLog(@"Successfully retrieved some tweets in getHomeTImelineWithCompletion");
         completion(tweets, nil);
        
 //       // Manually cache the tweets. If the request fails, restore from cache if possible.
@@ -77,7 +75,6 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
 //       completion(tweetDictionaries, nil);
        
    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//       NSLog(@"Failing in getHomeTimelineWithCompletion");
        completion(nil, error);
 
 //       NSArray *tweetDictionaries = nil;

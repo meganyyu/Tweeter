@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int retweetCount; // Update favorite count label
 @property (nonatomic) BOOL retweeted; // Configure retweet button
 @property (nonatomic, strong) User *user; // Contains Tweet author's name, screenname, etc.
+@property (nonatomic, strong) NSDate *createdAtDate; // NSDate of creation
 @property (nonatomic, strong) NSString *createdAtString; // Display date
 
 // For Retweets
@@ -39,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
  A factory method that returns Tweet objects when initialized with an array of Tweet dictionaries.
  */
 + (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries;
+
+- (int)hoursSinceTweet;
+- (NSString *)timeAgoCreated;
 
 @end
 

@@ -49,15 +49,15 @@
         if (tweets) {
             self.tweetArray = (NSMutableArray *) tweets;
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (Tweet *tweet in tweets) {
-                NSString *text = tweet.text;
-                NSLog(@"%@", text);
-            }
+//            for (Tweet *tweet in tweets) {
+//                NSString *text = tweet.text;
+//                NSLog(@"%@", text);
+//            }
+            [self.tableView reloadData];
         } else {
             NSString *const errorMessage = [error localizedDescription];
             NSLog(@"😫😫😫 Error getting home timeline: %@", errorMessage);
         }
-        [self.tableView reloadData];
         [self.refreshControl endRefreshing];
     }];
     //[task resume];
@@ -76,9 +76,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
-    
-    Tweet *tweet = self.tweetArray[indexPath.row];
-    cell.tweet = tweet;
+    cell.tweet = self.tweetArray[indexPath.row];
     [cell refreshData];
     return cell;
 }
