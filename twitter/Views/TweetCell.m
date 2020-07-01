@@ -36,7 +36,8 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+        // Configure the view for the selected state
+}
 
     - (IBAction)didTapFavorite:(id)sender {
         // Update the local tweet model
@@ -76,8 +77,14 @@
         }];
     }
 
-
-    // Configure the view for the selected state
+- (void)refreshData {
+    self.userNameLabel.text = self.tweet.user.name;
+    self.screenNameLabel.text = self.tweet.user.screenName;
+    self.timestampLabel.text = self.tweet.createdAtString;
+    self.tweetTextLabel.text = self.tweet.text;
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
+    self.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
+    [self.profilePictureView setImageWithURL:self.tweet.user.profileImageURL];
 }
 
 @end
