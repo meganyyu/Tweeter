@@ -52,6 +52,7 @@
 }
 
 + (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries{
+//    NSLog(@"Reached tweetsWithArray");
     NSMutableArray *tweets = [NSMutableArray array];
     for (NSDictionary *dictionary in dictionaries) {
         Tweet *tweet = [[Tweet alloc] initWithDictionary:dictionary];
