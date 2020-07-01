@@ -115,7 +115,7 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
 
 - (void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion{
 
-    NSString *urlString = @"1.1/statuses/retweet/:id.json";
+    NSString *urlString = @"1.1/statuses/retweet.json";
     NSDictionary *parameters = @{@"id": tweet.idStr};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
@@ -144,7 +144,7 @@ static NSString *const consumerSecret = @""; // Enter your consumer secret here
     if (!tweet.retweeted) {
         NSLog(@"Error: this hasn't been retweeted, should not be able to unretweet");
     } else {
-        NSString *urlString = @"1.1/statuses/unretweet/:id.json";
+        NSString *urlString = @"1.1/statuses/unretweet.json";
         NSDictionary *parameters = @{@"id": tweet.idStr};
         [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
             Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
