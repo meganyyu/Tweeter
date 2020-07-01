@@ -66,7 +66,7 @@
 - (void)didTweet:(Tweet *)tweet {
     NSLog(@"%@", tweet);
     [self.tweetArray addObject:tweet];
-    [self.tableView reloadData];
+    [self loadTweets];
     NSLog(@"Reached protocol method didTweet");
 }
 
