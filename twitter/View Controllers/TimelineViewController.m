@@ -36,24 +36,17 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(loadTweets) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
-    
-    //self.tableView.rowHeight = 120;
 }
 
   // Makes a network request to get updated data
   // Updates the tableView with the new data
   // Hides the RefreshControl
 - (void)loadTweets {
-//    NSLog(@"Reloading");
     // Get timeline (completion block is passed in an array of already processed Tweet objects)
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             self.tweetArray = (NSMutableArray *) tweets;
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-//            for (Tweet *tweet in tweets) {
-//                NSString *text = tweet.text;
-//                NSLog(@"%@", text);
-//            }
             [self.tableView reloadData];
         } else {
             NSString *const errorMessage = [error localizedDescription];
@@ -61,7 +54,6 @@
         }
         [self.refreshControl endRefreshing];
     }];
-    //[task resume];
 }
 
 - (void)didTweet:(Tweet *)tweet {

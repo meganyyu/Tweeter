@@ -9,9 +9,13 @@
 #import "ComposeViewController.h"
 #import "APIManager.h"
 
-@interface ComposeViewController ()
+@interface ComposeViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *composeTextView;
+@property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *characterCountLabel;
 
 @end
 
@@ -19,13 +23,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    NSLog(@"Loaded compose view");
+    // TODO: set authenticated user's profile picture, name, and screen name
+    
+    self.composeTextView.delegate = self;
+    [self.characterCountLabel setText:@"280"];
 }
 
 - (IBAction)didTapPost:(id)sender {
-    
     [[APIManager shared] postStatusWithText:self.composeTextView.text completion:^(Tweet *tweet, NSError *error) {
         if(error){
             NSLog(@"Error composing Tweet: %@", error.localizedDescription);
@@ -42,6 +47,14 @@
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    int const characterLimit = 280;
+    NSString *const newText = [self.composeTextView.text stringByReplacingCharactersInRange:range withString:text];
+
+    [self.characterCountLabel setText:[NSString stringWithFormat:@"%lu", characterLimit - newText.length]];
+    
+    return newText.length < characterLimit;
+}
 
 /*
 #pragma mark - Navigation
