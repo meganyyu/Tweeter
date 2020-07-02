@@ -1,16 +1,16 @@
 //
-//  TweetCell.m
+//  TweetViewController.m
 //  twitter
 //
-//  Created by meganyu on 6/29/20.
+//  Created by meganyu on 7/1/20.
 //  Copyright © 2020 Emerson Malca. All rights reserved.
 //
 
-#import "TweetCell.h"
+#import "TweetViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "APIManager.h"
 
-@interface TweetCell ()
+@interface TweetViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
@@ -27,16 +27,16 @@
 
 @end
 
-@implementation TweetCell
+@implementation TweetViewController
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-        // Configure the view for the selected state
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // FIXME: customize navigation bar
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    [self refreshData];
+    
 }
 
 - (IBAction)didTapFavorite:(id)sender {
@@ -103,22 +103,12 @@
     }
     
 }
-// is this necessary?? purpose?
-- (void)setTweet:(Tweet *)tweet {
-    _tweet = tweet;
-    [self refreshData];
-}
 
 - (void)refreshData {
     self.userNameLabel.text = self.tweet.user.name;
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
     [self.profilePictureView setImageWithURL:self.tweet.user.profileImageURL];
-    
-    if (self.tweet.hoursSinceTweet < 24) {
-        [self.timestampLabel setText:self.tweet.timeAgoCreated];
-    } else {
-        self.timestampLabel.text = self.tweet.createdAtString;
-    }
+    [self.timestampLabel setText:self.tweet.createdAtString];
     
     self.tweetTextLabel.text = self.tweet.text;
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
@@ -138,5 +128,15 @@
         [self.retweetButton setImage:retweetIcon forState:UIControlStateNormal];
     }
 }
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end
