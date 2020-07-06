@@ -12,7 +12,7 @@
 
 @interface TweetViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
@@ -107,7 +107,7 @@
 - (void)refreshData {
     self.userNameLabel.text = self.tweet.user.name;
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
-    [self.profilePictureView setImageWithURL:self.tweet.user.profileImageURL];
+    [self.profileImageView setImageWithURL:self.tweet.user.profileImageURL];
     [self.timestampLabel setText:self.tweet.createdAtString];
     
     self.tweetTextLabel.text = self.tweet.text;

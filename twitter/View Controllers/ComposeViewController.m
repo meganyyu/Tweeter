@@ -12,7 +12,7 @@
 @interface ComposeViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *composeTextView;
-@property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *characterCountLabel;
@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // TODO: set authenticated user's profile picture, name, and screen name
+    // TODO: set authenticated user's profile image, name, and screen name
     
     self.composeTextView.delegate = self;
     [self.characterCountLabel setText:@"280"];

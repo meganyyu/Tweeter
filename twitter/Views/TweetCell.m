@@ -12,7 +12,7 @@
 
 @interface TweetCell ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
@@ -31,7 +31,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+    UITapGestureRecognizer *profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+    [self.profileImageView addGestureRecognizer:profileTapGestureRecognizer];
+    [self.profileImageView setUserInteractionEnabled:YES];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -103,16 +106,18 @@
     }
     
 }
-// is this necessary?? purpose?
-- (void)setTweet:(Tweet *)tweet {
-    _tweet = tweet;
-    [self refreshData];
+
+- (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
+    // Call method on delegate
+    [self.delegate tweetCell:self didTap:self.tweet.user];
+    NSLog(@"User recorded by tapped tweetCell's tweet, according to TweetCell!!!: %@", self.tweet.user.name);
 }
+
 
 - (void)refreshData {
     self.userNameLabel.text = self.tweet.user.name;
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
-    [self.profilePictureView setImageWithURL:self.tweet.user.profileImageURL];
+    [self.profileImageView setImageWithURL:self.tweet.user.profileImageURL];
     
     if (self.tweet.hoursSinceTweet < 24) {
         [self.timestampLabel setText:self.tweet.timeAgoCreated];

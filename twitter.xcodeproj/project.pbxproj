@@ -18,6 +18,8 @@
 		713275DD24AB1ABF00A6A76E /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E1E41F24AAA17A00A16183 /* TweetCell.m */; };
 		713275DE24AB1ACA00A6A76E /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD278F520BCB68B0085BC29 /* APIManager.m */; };
 		7133EE8324AD44E30048F566 /* TweetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7133EE8224AD44E30048F566 /* TweetViewController.m */; };
+		7133EE8624AE75200048F566 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7133EE8524AE75200048F566 /* ProfileViewController.m */; };
+		7133EE8924AE8CAF0048F566 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7133EE8824AE8CAF0048F566 /* ProfileCell.m */; };
 		7156C9A624AAAA3A0074124E /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2790820BCC04D0085BC29 /* TimelineViewController.m */; };
 		719A23EA24ABDBE400B7DFB7 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E1E41924AA9B5D00A16183 /* User.m */; };
 		719A23ED24ABE57500B7DFB7 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 719A23EC24ABE57500B7DFB7 /* ComposeViewController.m */; };
@@ -45,6 +47,10 @@
 		6AD2790820BCC04D0085BC29 /* TimelineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
 		7133EE8124AD44E30048F566 /* TweetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TweetViewController.h; sourceTree = "<group>"; };
 		7133EE8224AD44E30048F566 /* TweetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TweetViewController.m; sourceTree = "<group>"; };
+		7133EE8424AE75200048F566 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		7133EE8524AE75200048F566 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		7133EE8724AE8CAF0048F566 /* ProfileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileCell.h; sourceTree = "<group>"; };
+		7133EE8824AE8CAF0048F566 /* ProfileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
 		719A23E824AB933400B7DFB7 /* CustomConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CustomConfig.xcconfig; sourceTree = "<group>"; };
 		719A23EB24ABE57500B7DFB7 /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		719A23EC24ABE57500B7DFB7 /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
@@ -141,6 +147,8 @@
 			children = (
 				71E1E41E24AAA17A00A16183 /* TweetCell.h */,
 				71E1E41F24AAA17A00A16183 /* TweetCell.m */,
+				7133EE8724AE8CAF0048F566 /* ProfileCell.h */,
+				7133EE8824AE8CAF0048F566 /* ProfileCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -156,6 +164,8 @@
 				719A23EC24ABE57500B7DFB7 /* ComposeViewController.m */,
 				7133EE8124AD44E30048F566 /* TweetViewController.h */,
 				7133EE8224AD44E30048F566 /* TweetViewController.m */,
+				7133EE8424AE75200048F566 /* ProfileViewController.h */,
+				7133EE8524AE75200048F566 /* ProfileViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -296,7 +306,9 @@
 				6AD278F320BCA6020085BC29 /* BDBOAuth1SessionManager+SFAuthenticationSession.m in Sources */,
 				6AD278E820BC4B970085BC29 /* main.m in Sources */,
 				71E1E41D24AA9B6900A16183 /* Tweet.m in Sources */,
+				7133EE8924AE8CAF0048F566 /* ProfileCell.m in Sources */,
 				6AD2790620BCC0380085BC29 /* LoginViewController.m in Sources */,
+				7133EE8624AE75200048F566 /* ProfileViewController.m in Sources */,
 				6AD278DA20BC4B950085BC29 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

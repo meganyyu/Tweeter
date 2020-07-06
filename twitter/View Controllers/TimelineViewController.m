@@ -15,8 +15,9 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "TweetViewController.h"
+#import "ProfileViewController.h"
 
-@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface TimelineViewController () <TweetCellDelegate, ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -70,6 +71,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     cell.tweet = self.tweetArray[indexPath.row];
+    cell.delegate = self;
     [cell refreshData];
     return cell;
 }
@@ -86,6 +88,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+// Performs segue to profile view controller
+- (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user{
+    NSLog(@"User recorded by tapped tweetCell's tweet, according to TimelineVC!!!: %@", tweetCell.tweet.user.name);
+    NSLog(@"User recorded by tapped tweetCell's user, according to TimelineVC!!!: %@", user.name);
+    [self performSegueWithIdentifier:@"profileSegue" sender:user];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,6 +118,13 @@
         TweetViewController *tweetViewController = [segue destinationViewController];
         tweetViewController.tweet = tweet;
         NSLog(@"Tapping on a tweet!");
+    } else if ([[segue identifier] isEqualToString:@"profileSegue"]) {
+        User *user = sender;
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        ProfileViewController *profileViewController = (ProfileViewController*)navigationController.topViewController;
+        profileViewController.user = user;
+        NSLog(@"User!!!!: %@", user.name);
     }
 }
 
