@@ -2,7 +2,7 @@
 
 **Tweeter** is a basic Twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **24** hours spent in total
+Time spent: **28** hours spent in total
 
 ## User Stories
 
@@ -53,7 +53,11 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+See whole video here - https://recordit.co/sMcdLPnjyD
+
+<img src='http://g.recordit.co/g3uelGm86x.gif' title='Video Walkthrough 1' width='' alt='Video Walkthrough 1' /> &nbsp; <img src='http://g.recordit.co/CFEGgUPaS3.gif' title='Video Walkthrough 2' width='' alt='Video Walkthrough 2' />
+
+<img src='http://g.recordit.co/bfovbsOV1e.gif' title='Video Walkthrough 3' width='' alt='Video Walkthrough 3' />
 
 GIF created with [Recordit](http://recordit.co/).
 
