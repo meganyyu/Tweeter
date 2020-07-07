@@ -24,8 +24,8 @@
 
 @implementation ProfileViewController
 
-NSString *const CellIdentifier = @"TweetCell";
-NSString *const HeaderViewIdentifier = @"ProfileCell";
+NSString *const kTweetCellID = @"TweetCell";
+NSString *const kHeaderViewID = @"ProfileCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +68,7 @@ NSString *const HeaderViewIdentifier = @"ProfileCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kTweetCellID];
     cell.tweet = self.tweetArray[indexPath.row];
     
     [cell refreshData];
@@ -77,7 +77,7 @@ NSString *const HeaderViewIdentifier = @"ProfileCell";
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    ProfileCell *header = [tableView dequeueReusableCellWithIdentifier:HeaderViewIdentifier];
+    ProfileCell *header = [tableView dequeueReusableCellWithIdentifier:kHeaderViewID];
     header.user = self.user;
     
     [header refreshData];
@@ -85,8 +85,9 @@ NSString *const HeaderViewIdentifier = @"ProfileCell";
     return header;
 }
 
-
-
+- (IBAction)onTapBack:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

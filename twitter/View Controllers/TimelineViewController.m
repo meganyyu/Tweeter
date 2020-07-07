@@ -17,6 +17,13 @@
 #import "TweetViewController.h"
 #import "ProfileViewController.h"
 
+static NSString *const kTweetCellID = @"TweetCell";
+static NSString *const kMainStoryboardID = @"Main";
+static NSString *const kLoginViewControllerID = @"LoginViewController";
+static NSString *const kProfileSegueID = @"profileSegue";
+static NSString *const kComposeSegueID = @"composeSegue";
+static NSString *const kViewTweetSegueID = @"viewTweetSegue";
+
 @interface TimelineViewController () <TweetCellDelegate, ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -29,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
@@ -39,20 +47,20 @@
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
-  // Makes a network request to get updated data
-  // Updates the tableView with the new data
-  // Hides the RefreshControl
+  /** Makes a network request to get updated data. Updates the tableView with the new data. Hides the RefreshControl. */
 - (void)loadTweets {
     // Get timeline (completion block is passed in an array of already processed Tweet objects)
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             self.tweetArray = (NSMutableArray *) tweets;
             NSLog(@"😎😎😎 Successfully loaded home timeline");
+            
             [self.tableView reloadData];
         } else {
             NSString *const errorMessage = [error localizedDescription];
             NSLog(@"😫😫😫 Error getting home timeline: %@", errorMessage);
         }
+        
         [self.refreshControl endRefreshing];
     }];
 }
@@ -60,7 +68,9 @@
 - (void)didTweet:(Tweet *)tweet {
     NSLog(@"%@", tweet);
     [self.tweetArray addObject:tweet];
+    
     [self loadTweets];
+    
     NSLog(@"Reached protocol method didTweet");
 }
 
@@ -69,7 +79,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+    TweetCell *const cell = [tableView dequeueReusableCellWithIdentifier:kTweetCellID];
     cell.tweet = self.tweetArray[indexPath.row];
     cell.delegate = self;
     [cell refreshData];
@@ -77,10 +87,10 @@
 }
 
 - (IBAction)didTapLogout:(id)sender {
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *const appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    UIStoryboard *const storyboard = [UIStoryboard storyboardWithName:kMainStoryboardID bundle:nil];
+    LoginViewController *const loginViewController = [storyboard instantiateViewControllerWithIdentifier:kLoginViewControllerID];
     appDelegate.window.rootViewController = loginViewController;
     
     [[APIManager shared] logout];
@@ -90,11 +100,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-// Performs segue to profile view controller
+/** Performs segue to profile view controller */
 - (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user{
-    NSLog(@"User recorded by tapped tweetCell's tweet, according to TimelineVC!!!: %@", tweetCell.tweet.user.name);
     NSLog(@"User recorded by tapped tweetCell's user, according to TimelineVC!!!: %@", user.name);
-    [self performSegueWithIdentifier:@"profileSegue" sender:user];
+    
+    [self performSegueWithIdentifier:kProfileSegueID sender:user];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -106,19 +116,20 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"composeSegue"]) {
+    if ([[segue identifier] isEqualToString:kComposeSegueID]) {
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
         composeController.delegate = self;
-    } else if ([[segue identifier] isEqualToString:@"viewTweetSegue"]) {
+    } else if ([[segue identifier] isEqualToString:kViewTweetSegueID]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
         Tweet *tweet = self.tweetArray[indexPath.row];
         
         TweetViewController *tweetViewController = [segue destinationViewController];
         tweetViewController.tweet = tweet;
+        
         NSLog(@"Tapping on a tweet!");
-    } else if ([[segue identifier] isEqualToString:@"profileSegue"]) {
+    } else if ([[segue identifier] isEqualToString:kProfileSegueID]) {
         User *user = sender;
         
         UINavigationController *navigationController = [segue destinationViewController];

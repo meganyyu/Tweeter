@@ -9,6 +9,8 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 
+static NSString *const kLoginSegueID = @"loginSegue";
+
 @interface LoginViewController ()
 
 @end
@@ -28,7 +30,7 @@
 - (IBAction)didTapLogin:(id)sender {
     [[APIManager shared] loginWithCompletion:^(BOOL success, NSError *error) {
         if (success) {
-            [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+            [self performSegueWithIdentifier:kLoginSegueID sender:nil];
         } else {
             NSLog(@"%@", error.localizedDescription);
         }

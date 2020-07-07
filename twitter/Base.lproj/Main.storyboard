@@ -260,7 +260,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="aIt-t6-ry4" id="DgL-Z4-sch"/>
-                        <segue destination="tzE-ok-sqv" kind="show" identifier="profileSegue" id="uoQ-2C-5Sm"/>
+                        <segue destination="tzE-ok-sqv" kind="presentation" identifier="profileSegue" id="uoQ-2C-5Sm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQh-hN-GQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -281,12 +281,16 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TQ2-q3-qP4">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hpj-Wh-MFq">
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hpj-Wh-MFq">
                                                 <rect key="frame" x="15" y="11" width="60" height="60"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="wbm-ll-OTb"/>
                                                     <constraint firstAttribute="height" constant="60" id="wt8-Qx-eX4"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="rjP-RA-0p8" appends="YES" id="9UB-l3-kvW"/>
+                                                </connections>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Megan Yu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96B-6H-lVW">
                                                 <rect key="frame" x="90" y="22.666666666666668" width="66.666666666666686" height="17.000000000000004"/>
@@ -459,11 +463,17 @@
                         <outlet property="timestampLabel" destination="xLK-NJ-ZNg" id="byS-so-vVX"/>
                         <outlet property="tweetTextLabel" destination="Yfk-7J-dHg" id="m3I-r4-cgT"/>
                         <outlet property="userNameLabel" destination="96B-6H-lVW" id="v5S-dO-LFi"/>
+                        <segue destination="tzE-ok-sqv" kind="presentation" identifier="profileSegue" id="xiF-G7-u09"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nvd-gV-6Hf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rjP-RA-0p8">
+                    <connections>
+                        <action selector="onTapProfileImage:" destination="QRx-dG-Jup" id="c6L-Oj-E6f"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2716" y="-573"/>
+            <point key="canvasLocation" x="2701" y="-564"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="BUn-0e-L3T">
@@ -876,7 +886,11 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" id="nrE-mu-wE9">
-                        <barButtonItem key="leftBarButtonItem" image="back-icon" id="fMp-p5-LuX"/>
+                        <barButtonItem key="leftBarButtonItem" image="back-icon" id="fMp-p5-LuX">
+                            <connections>
+                                <action selector="onTapBack:" destination="DGq-3U-EVz" id="qFn-Cl-QJ7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="CiJ-eX-MOm" id="kV9-fz-V2B"/>
@@ -889,7 +903,7 @@
         <!--Navigation Controller-->
         <scene sceneID="XaF-41-Uep">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tzE-ok-sqv" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="tzE-ok-sqv" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="uEL-4M-XSE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="t24-h4-7E8">
@@ -906,6 +920,9 @@
             <point key="canvasLocation" x="2743" y="184"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="xiF-G7-u09"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="TwitterLogoBlue" width="133.33332824707031" height="133.33332824707031"/>
         <image name="back-icon" width="30" height="30"/>

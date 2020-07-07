@@ -33,9 +33,11 @@
 - (void)refreshData {
     [self.profileImageView setImageWithURL:self.user.profileImageURL];
     [self.profileBannerView setImageWithURL:self.user.profileBannerURL];
+    
     [self.userNameLabel setText:self.user.name];
     [self.screenNameLabel setText:self.user.screenName];
     //[self.profileDescriptionLabel setText:self.user.description];
+    
     [self.followersCountLabel setText:[NSString stringWithFormat:@"%d", self.user.followersCount]];
     [self.friendsCountLabel setText:[NSString stringWithFormat:@"%d", self.user.friendsCount]];
     [self.statusesCountLabel setText:[NSString stringWithFormat:@"%d", self.user.statusesCount]];
