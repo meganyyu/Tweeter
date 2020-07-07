@@ -156,18 +156,58 @@
 		6AD2790320BCC01B0085BC29 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				717B958124B5356800402937 /* Login View Controller */,
+				717B958224B5357A00402937 /* Timeline View Controller */,
+				717B958324B5358300402937 /* Compose View Controller */,
+				717B958424B5359C00402937 /* Tweet View Controller */,
+				717B958524B535A500402937 /* Profile View Controller */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		717B958124B5356800402937 /* Login View Controller */ = {
+			isa = PBXGroup;
+			children = (
 				6AD2790420BCC0380085BC29 /* LoginViewController.h */,
 				6AD2790520BCC0380085BC29 /* LoginViewController.m */,
+			);
+			path = "Login View Controller";
+			sourceTree = "<group>";
+		};
+		717B958224B5357A00402937 /* Timeline View Controller */ = {
+			isa = PBXGroup;
+			children = (
 				6AD2790720BCC04D0085BC29 /* TimelineViewController.h */,
 				6AD2790820BCC04D0085BC29 /* TimelineViewController.m */,
+			);
+			path = "Timeline View Controller";
+			sourceTree = "<group>";
+		};
+		717B958324B5358300402937 /* Compose View Controller */ = {
+			isa = PBXGroup;
+			children = (
 				719A23EB24ABE57500B7DFB7 /* ComposeViewController.h */,
 				719A23EC24ABE57500B7DFB7 /* ComposeViewController.m */,
+			);
+			path = "Compose View Controller";
+			sourceTree = "<group>";
+		};
+		717B958424B5359C00402937 /* Tweet View Controller */ = {
+			isa = PBXGroup;
+			children = (
 				7133EE8124AD44E30048F566 /* TweetViewController.h */,
 				7133EE8224AD44E30048F566 /* TweetViewController.m */,
+			);
+			path = "Tweet View Controller";
+			sourceTree = "<group>";
+		};
+		717B958524B535A500402937 /* Profile View Controller */ = {
+			isa = PBXGroup;
+			children = (
 				7133EE8424AE75200048F566 /* ProfileViewController.h */,
 				7133EE8524AE75200048F566 /* ProfileViewController.m */,
 			);
-			path = "View Controllers";
+			path = "Profile View Controller";
 			sourceTree = "<group>";
 		};
 		719A23E724AB92DA00B7DFB7 /* Configs */ = {
