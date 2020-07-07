@@ -36,7 +36,7 @@
     
     [self.userNameLabel setText:self.user.name];
     [self.screenNameLabel setText:self.user.screenName];
-    //[self.profileDescriptionLabel setText:self.user.description];
+    [self.profileDescriptionLabel setText:self.user.userDescription];
     
     [self.followersCountLabel setText:[NSString stringWithFormat:@"%d", self.user.followersCount]];
     [self.friendsCountLabel setText:[NSString stringWithFormat:@"%d", self.user.friendsCount]];

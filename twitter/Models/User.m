@@ -16,7 +16,7 @@
         self.name = dictionary[@"name"];
         self.screenName = dictionary[@"screen_name"];
         NSLog(@"%@", [NSString stringWithFormat:@"%@", dictionary[@"description"]]);
-        //self.description = dictionary[@"description"];
+        self.userDescription = dictionary[@"description"];
         NSString *const profileURLString = dictionary[@"profile_image_url_https"];
         self.profileImageURL = [NSURL URLWithString:profileURLString];
         
