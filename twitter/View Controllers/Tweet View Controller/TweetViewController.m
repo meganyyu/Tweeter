@@ -7,15 +7,19 @@
 //
 
 #import "TweetViewController.h"
-#import "UIImageView+AFNetworking.h"
+
 #import "APIManager.h"
 #import "ProfileViewController.h"
+#import "TweetMutator.h"
+#import "UIImageView+AFNetworking.h"
 
 static NSString *const kProfileSegueID = @"profileSegue";
 static NSString *const kTappedFavorIconID = @"favor-icon-red";
 static NSString *const kUntappedFavorIconID = @"favor-icon";
 static NSString *const kTappedRetweetIconID = @"retweet-icon-green";
 static NSString *const kUntappedRetweetIconID = @"retweet-icon";
+
+#pragma mark - Interface
 
 @interface TweetViewController ()
 
@@ -34,7 +38,11 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 
 @end
 
+#pragma mark - Implementation
+
 @implementation TweetViewController
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,103 +50,58 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
     [self refreshData];
 }
 
+#pragma mark - User Actions
+
 - (IBAction)didTapFavorite:(id)sender {
-    if (!self.tweet.favorited) {
-        self.tweet.favorited = YES;
-        self.tweet.favoriteCount += 1;
-        //NSLog(@"Trying to like, value of tweet.favorited is now = %@", (self.tweet.favorited ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
-            } else{
-                NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
-            }
-        }];
-    } else {
-        self.tweet.favorited = NO;
-        self.tweet.favoriteCount -= 1;
-        //NSLog(@"Trying to unlike, value of tweet.favorited is now = %@", (self.tweet.favorited ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if (error) {
-                NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
-            } else {
-                NSLog(@"Successfully unfavorited the following Tweet: %@", tweet.text);
-            }
-        }];
-    }
+    __weak typeof (self) weakSelf = self;
+    [TweetMutator setTweet:_tweet
+                 favorited:!_tweet.favorited
+                   failure:^(Tweet * _Nonnull tweet, NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            return;
+        }
+        [strongSelf refreshData];
+    }];
+    [self refreshData];
 }
 
 - (IBAction)didTapRetweet:(id)sender {
-    if (!self.tweet.retweeted) {
-        self.tweet.retweeted = YES;
-        self.tweet.retweetCount += 1;
-        //NSLog(@"Trying to retweet, value of tweet.retweeted is now = %@", (self.tweet.retweeted ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
-            } else{
-                NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
-            }
-        }];
-    } else {
-        self.tweet.retweeted = NO;
-        self.tweet.retweetCount -= 1;
-        //NSLog(@"Trying to unretweet, value of tweet.retweeted is now = %@", (self.tweet.retweeted ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                NSLog(@"Error unretweeting tweet: %@", error.localizedDescription);
-            } else{
-                NSLog(@"Successfully unretweeted the following Tweet: %@", tweet.text);
-            }
-        }];
-    }
-    
+    __weak typeof (self) weakSelf = self;
+    [TweetMutator setTweet:_tweet
+                 retweeted:!_tweet.retweeted
+                   failure:^(Tweet * _Nonnull tweet, NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            return;
+        }
+        [strongSelf refreshData];
+    }];
+    [self refreshData];
 }
 
 - (IBAction)onTapProfileImage:(UITapGestureRecognizer *)sender {
-    //NSLog(@"User recorded by tapped tweet, according to TweetVC!!!: %@", self.tweet.user.name);
-    [self performSegueWithIdentifier:kProfileSegueID sender:self.tweet.user];
+    //NSLog(@"User recorded by tapped tweet, according to TweetVC!!!: %@", _tweet.user.name);
+    [self performSegueWithIdentifier:kProfileSegueID sender:_tweet.user];
 }
 
+#pragma mark - Refresh Data
+
 - (void)refreshData {
-    self.userNameLabel.text = self.tweet.user.name;
-    self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
+    _userNameLabel.text = _tweet.user.name;
+    _screenNameLabel.text = [NSString stringWithFormat:@"@%@", _tweet.user.screenName];
+    _timestampLabel.text = _tweet.createdAtString;
+    _tweetTextLabel.text = _tweet.text;
+    _retweetCountLabel.text = [NSString stringWithFormat:@"%d", _tweet.retweetCount];
+    _favoriteCountLabel.text = [NSString stringWithFormat:@"%d", _tweet.favoriteCount];
     
-    [self.profileImageView setImageWithURL:self.tweet.user.profileImageURL];
-    [self.timestampLabel setText:self.tweet.createdAtString];
+    [_profileImageView setImageWithURL:_tweet.user.profileImageURL];
     
-    self.tweetTextLabel.text = self.tweet.text;
+    UIImage *const favorIcon = [UIImage imageNamed:(_tweet.favorited ? kTappedFavorIconID : kUntappedFavorIconID)];
+    [_favoriteButton setImage:favorIcon forState:UIControlStateNormal];
     
-    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
-    self.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
-    
-    if (self.tweet.favorited) {
-        UIImage *const tappedFavorIcon = [UIImage imageNamed:kTappedFavorIconID];
-        [self.favoriteButton setImage:tappedFavorIcon forState:UIControlStateNormal];
-    } else {
-        UIImage *const untappedFavorIcon = [UIImage imageNamed:kUntappedFavorIconID];
-        [self.favoriteButton setImage:untappedFavorIcon forState:UIControlStateNormal];
-    }
-    
-    if (self.tweet.retweeted) {
-        UIImage *const tappedRetweetIcon = [UIImage imageNamed:kTappedRetweetIconID];
-        [self.retweetButton setImage:tappedRetweetIcon forState:UIControlStateNormal];
-    } else {
-        UIImage *const untappedRetweetIcon = [UIImage imageNamed:kUntappedRetweetIconID];
-        [self.retweetButton setImage:untappedRetweetIcon forState:UIControlStateNormal];
-    }
+    UIImage *const retweetIcon = [UIImage imageNamed:(_tweet.retweeted ? kTappedRetweetIconID : kUntappedRetweetIconID)];
+    [_retweetButton setImage:retweetIcon forState:UIControlStateNormal];
 }
 
 #pragma mark - Navigation

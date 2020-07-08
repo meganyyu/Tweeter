@@ -7,14 +7,20 @@
 //
 
 #import "TweetCell.h"
-#import "UIImageView+AFNetworking.h"
+
 #import "APIManager.h"
+#import "TweetMutator.h"
+#import "UIImageView+AFNetworking.h"
+
+#pragma mark - Constants
 
 static NSString *const kProfileSegueID = @"profileSegue";
 static NSString *const kTappedFavorIconID = @"favor-icon-red";
 static NSString *const kUntappedFavorIconID = @"favor-icon";
 static NSString *const kTappedRetweetIconID = @"retweet-icon-green";
 static NSString *const kUntappedRetweetIconID = @"retweet-icon";
+
+#pragma mark - Interface
 
 @interface TweetCell ()
 
@@ -33,124 +39,73 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 
 @end
 
+#pragma mark - Implementation
+
 @implementation TweetCell
+
+#pragma mark - Setup
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
     UITapGestureRecognizer *const profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
-    [self.profileImageView addGestureRecognizer:profileTapGestureRecognizer];
-    [self.profileImageView setUserInteractionEnabled:YES];
+    [_profileImageView addGestureRecognizer:profileTapGestureRecognizer];
+    [_profileImageView setUserInteractionEnabled:YES];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-        // Configure the view for the selected state
-}
+#pragma mark - User Actions
 
 - (IBAction)didTapFavorite:(id)sender {
-    if (!self.tweet.favorited) {
-        self.tweet.favorited = YES;
-        self.tweet.favoriteCount += 1;
-        //NSLog(@"Trying to like, value of tweet.favorited is now = %@", (self.tweet.favorited ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
-            } else{
-                NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
-            }
-        }];
-    } else {
-        self.tweet.favorited = NO;
-        self.tweet.favoriteCount -= 1;
-        //NSLog(@"Trying to unlike, value of tweet.favorited is now = %@", (self.tweet.favorited ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if (error) {
-                NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
-            } else {
-                NSLog(@"Successfully unfavorited the following Tweet: %@", tweet.text);
-            }
-        }];
-    }
+    __weak typeof (self) weakSelf = self;
+    [TweetMutator setTweet:_tweet
+                 favorited:!_tweet.favorited
+                   failure:^(Tweet * _Nonnull tweet, NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            return;
+        }
+        [strongSelf refreshData];
+    }];
+    [self refreshData];
 }
 
 - (IBAction)didTapRetweet:(id)sender {
-    if (!self.tweet.retweeted) {
-        self.tweet.retweeted = YES;
-        self.tweet.retweetCount += 1;
-        //NSLog(@"Trying to retweet, value of tweet.retweeted is now = %@", (self.tweet.retweeted ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
-            } else{
-                NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
-            }
-        }];
-    } else {
-        self.tweet.retweeted = NO;
-        self.tweet.retweetCount -= 1;
-        //NSLog(@"Trying to unretweet, value of tweet.retweeted is now = %@", (self.tweet.retweeted ? @"YES" : @"NO"));
-        
-        [self refreshData];
-        
-        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                NSLog(@"Error unretweeting tweet: %@", error.localizedDescription);
-            } else{
-                NSLog(@"Successfully unretweeted the following Tweet: %@", tweet.text);
-            }
-        }];
-    }
-    
+    __weak typeof (self) weakSelf = self;
+    [TweetMutator setTweet:_tweet
+                 retweeted:!_tweet.retweeted
+                   failure:^(Tweet * _Nonnull tweet, NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            return;
+        }
+        [strongSelf refreshData];
+    }];
+    [self refreshData];
 }
 
 - (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
     // Call method on delegate
-    [self.delegate tweetCell:self didTap:self.tweet.user];
-    NSLog(@"User recorded by tapped tweetCell's tweet, according to TweetCell!!!: %@", self.tweet.user.name);
+    [_delegate tweetCell:self didTap:_tweet.user];
+    NSLog(@"User recorded by tapped tweetCell's tweet, according to TweetCell!!!: %@", _tweet.user.name);
 }
 
+#pragma mark - Refresh Data
 
 - (void)refreshData {
-    self.userNameLabel.text = self.tweet.user.name;
-    self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
-    [self.profileImageView setImageWithURL:self.tweet.user.profileImageURL];
+    _userNameLabel.text = _tweet.user.name;
+    _screenNameLabel.text = [NSString stringWithFormat:@"@%@", _tweet.user.screenName];
+    _tweetTextLabel.text = _tweet.text;
+    _retweetCountLabel.text = [NSString stringWithFormat:@"%d", _tweet.retweetCount];
+    _favoriteCountLabel.text = [NSString stringWithFormat:@"%d", _tweet.favoriteCount];
+    _timestampLabel.text = (_tweet.hoursSinceTweet < 24 ? _tweet.timeAgoCreated : _tweet.createdAtString);
     
-    if (self.tweet.hoursSinceTweet < 24) {
-        [self.timestampLabel setText:self.tweet.timeAgoCreated];
-    } else {
-        self.timestampLabel.text = self.tweet.createdAtString;
-    }
+    [_profileImageView setImageWithURL:_tweet.user.profileImageURL];
     
-    self.tweetTextLabel.text = self.tweet.text;
+    UIImage *const favorIcon = [UIImage imageNamed:(_tweet.favorited ? kTappedFavorIconID : kUntappedFavorIconID)];
+    [_favoriteButton setImage:favorIcon forState:UIControlStateNormal];
     
-    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
-    self.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
-    
-    if (self.tweet.favorited) {
-        UIImage *const tappedFavorIcon = [UIImage imageNamed:kTappedFavorIconID];
-        [self.favoriteButton setImage:tappedFavorIcon forState:UIControlStateNormal];
-    } else {
-        UIImage *const untappedFavorIcon = [UIImage imageNamed:kUntappedFavorIconID];
-        [self.favoriteButton setImage:untappedFavorIcon forState:UIControlStateNormal];
-    }
-    
-    if (self.tweet.retweeted) {
-        UIImage *const tappedRetweetIcon = [UIImage imageNamed:kTappedRetweetIconID];
-        [self.retweetButton setImage:tappedRetweetIcon forState:UIControlStateNormal];
-    } else {
-        UIImage *const untappedRetweetIcon = [UIImage imageNamed:kUntappedRetweetIconID];
-        [self.retweetButton setImage:untappedRetweetIcon forState:UIControlStateNormal];
-    }
+    UIImage *const retweetIcon = [UIImage imageNamed:(_tweet.retweeted ? kTappedRetweetIconID : kUntappedRetweetIconID)];
+    [_retweetButton setImage:retweetIcon forState:UIControlStateNormal];
 }
 
 @end
