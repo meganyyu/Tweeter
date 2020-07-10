@@ -9,6 +9,8 @@
 #import "ProfileCell.h"
 #import "UIImageView+AFNetworking.h"
 
+#pragma mark - Interface
+
 @interface ProfileCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
@@ -20,15 +22,17 @@
 @property (weak, nonatomic) IBOutlet UILabel *friendsCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusesCountLabel;
 
-
 @end
+
+#pragma mark - Implementation
 
 @implementation ProfileCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
+
+#pragma mark - Refresh data
 
 - (void)refreshData {
     [self.profileImageView setImageWithURL:self.user.profileImageURL];

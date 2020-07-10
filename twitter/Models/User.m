@@ -8,14 +8,18 @@
 
 #import "User.h"
 
-static NSString *const kNameID = @"name";
-static NSString *const kScreenNameID = @"screen_name";
+#pragma mark - Constants
+
 static NSString *const kDescriptionID = @"description";
-static NSString *const kProfileImageURLID = @"profile_image_url_https";
-static NSString *const kProfileBannerURLID = @"profile_banner_url";
 static NSString *const kFollowersCountID = @"followers_count";
 static NSString *const kFriendsCountID = @"friends_count";
+static NSString *const kNameID = @"name";
+static NSString *const kProfileImageURLID = @"profile_image_url_https";
+static NSString *const kProfileBannerURLID = @"profile_banner_url";
+static NSString *const kScreenNameID = @"screen_name";
 static NSString *const kStatuseCountID = @"statuses_count";
+
+#pragma mark - Implementation
 
 @implementation User
 

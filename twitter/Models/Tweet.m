@@ -7,33 +7,40 @@
 //
 
 #import "Tweet.h"
-#import "User.h"
+
 #import "NSDate+DateTools.h"
+#import "User.h"
 
 #define NUMBER_OF_SECONDS_IN_ONE_HOUR 3600
 
-static NSString *const kRetweetedStatusID = @"retweeted_status";
-static NSString *const kUserID = @"user";
-static NSString *const kTweetID = @"id_str";
-static NSString *const kFullTextID = @"full_text";
-static NSString *const kFavoriteCountID = @"favorite_count";
-static NSString *const kIsFavoritedID = @"favorited";
-static NSString *const kRetweetCountID = @"retweet_count";
-static NSString *const kIsRetweetedID = @"retweeted";
+#pragma mark - Constants
+
 static NSString *const kCreatedAtID = @"created_at";
+static NSString *const kFavoriteCountID = @"favorite_count";
+static NSString *const kFullTextID = @"full_text";
+static NSString *const kIsFavoritedID = @"favorited";
+static NSString *const kIsRetweetedID = @"retweeted";
+static NSString *const kRetweetCountID = @"retweet_count";
+static NSString *const kRetweetedStatusID = @"retweeted_status";
+static NSString *const kTweetID = @"id_str";
+static NSString *const kUserID = @"user";
+
+#pragma mark - Implementation
 
 @implementation Tweet
+
+#pragma mark - Setup
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-
-        // Is this a re-tweet?
+        
+        // checks if this a re-tweet
         NSDictionary *const originalTweet = dictionary[kRetweetedStatusID];
         if(originalTweet != nil){
             NSDictionary *const userDictionary = dictionary[kUserID];
             self.retweetedByUser = [[User alloc] initWithDictionary:userDictionary];
-
+            
             // Change tweet to original tweet
             dictionary = originalTweet;
         }
@@ -49,7 +56,7 @@ static NSString *const kCreatedAtID = @"created_at";
         // initialize user
         NSDictionary *const user = dictionary[kUserID];
         self.user = [[User alloc] initWithDictionary:user];
-
+        
         // Format createdAt date string
         NSString *const createdAtOriginalString = dictionary[kCreatedAtID];
         NSDateFormatter *const formatter = [[NSDateFormatter alloc] init];
@@ -75,6 +82,8 @@ static NSString *const kCreatedAtID = @"created_at";
     }
     return tweets;
 }
+
+#pragma mark - Time helper methods
 
 - (int)hoursSinceTweet {
     NSDate *const currentTime = [NSDate date];

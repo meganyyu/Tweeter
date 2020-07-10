@@ -13,10 +13,12 @@
 #import "TweetMutator.h"
 #import "UIImageView+AFNetworking.h"
 
+#pragma mark - Constants
+
 static NSString *const kProfileSegueID = @"profileSegue";
 static NSString *const kTappedFavorIconID = @"favor-icon-red";
-static NSString *const kUntappedFavorIconID = @"favor-icon";
 static NSString *const kTappedRetweetIconID = @"retweet-icon-green";
+static NSString *const kUntappedFavorIconID = @"favor-icon";
 static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 
 #pragma mark - Interface
@@ -82,7 +84,8 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 
 - (IBAction)onTapProfileImage:(UITapGestureRecognizer *)sender {
     //NSLog(@"User recorded by tapped tweet, according to TweetVC!!!: %@", _tweet.user.name);
-    [self performSegueWithIdentifier:kProfileSegueID sender:_tweet.user];
+    [self performSegueWithIdentifier:kProfileSegueID
+                              sender:_tweet.user];
 }
 
 #pragma mark - Refresh Data
@@ -106,7 +109,8 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 
 #pragma mark - Navigation
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender {
     if ([[segue identifier] isEqualToString:kProfileSegueID]) {
         User *const user = sender;
         

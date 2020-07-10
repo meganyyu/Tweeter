@@ -7,13 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Tweet : NSObject
 
-// MARK: Properties
+#pragma mark - Properties
+
 @property (nonatomic, strong) NSString *idStr; // For favoriting, retweeting & replying
 @property (nonatomic, strong) NSString *text; // Text content of tweet
 @property (nonatomic) int favoriteCount; // Update favorite count label
@@ -29,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *tweet;
 
-// MARK: Methods
+#pragma mark - Methods
+
 /**
  Initializes a Tweet object by pulling data from a particular Tweet dictionary object in the data array returned by the Twitter API.
  Also initializes relevant User objects in the process.
@@ -42,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries;
 
 - (int)hoursSinceTweet;
+
 - (NSString *)timeAgoCreated;
 
 @end

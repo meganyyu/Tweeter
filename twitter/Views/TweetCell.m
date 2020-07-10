@@ -16,8 +16,8 @@
 
 static NSString *const kProfileSegueID = @"profileSegue";
 static NSString *const kTappedFavorIconID = @"favor-icon-red";
-static NSString *const kUntappedFavorIconID = @"favor-icon";
 static NSString *const kTappedRetweetIconID = @"retweet-icon-green";
+static NSString *const kUntappedFavorIconID = @"favor-icon";
 static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 
 #pragma mark - Interface
@@ -48,7 +48,8 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    UITapGestureRecognizer *const profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+    UITapGestureRecognizer *const profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                                       action:@selector(didTapUserProfile:)];
     [_profileImageView addGestureRecognizer:profileTapGestureRecognizer];
     [_profileImageView setUserInteractionEnabled:YES];
 }
@@ -84,7 +85,6 @@ static NSString *const kUntappedRetweetIconID = @"retweet-icon";
 }
 
 - (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
-    // Call method on delegate
     [_delegate tweetCell:self didTap:_tweet.user];
     NSLog(@"User recorded by tapped tweetCell's tweet, according to TweetCell!!!: %@", _tweet.user.name);
 }

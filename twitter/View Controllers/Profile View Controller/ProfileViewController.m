@@ -7,47 +7,56 @@
 //
 
 #import "ProfileViewController.h"
+
 #import "APIManager.h"
-#import "UIImageView+AFNetworking.h"
-#import "TweetCell.h"
-#import "Tweet.h"
-#import "TweetViewController.h"
 #import "ProfileCell.h"
+#import "Tweet.h"
+#import "TweetCell.h"
+#import "TweetViewController.h"
+#import "UIImageView+AFNetworking.h"
+
+#pragma mark - Constants
+
+static NSString *const kHeaderViewID = @"ProfileCell";
+static NSString *const kTweetCellID = @"TweetCell";
+
+#pragma mark - Interface
 
 @interface ProfileViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *tweetArray;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
+#pragma mark - Implementation
+
 @implementation ProfileViewController
 
-NSString *const kTweetCellID = @"TweetCell";
-NSString *const kHeaderViewID = @"ProfileCell";
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Contains the user header view: picture and tagline
-    // Contains a section with the users basic stats: # tweets, # following, # followers
-    
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
     
     [self loadTweets];
     
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(loadTweets) forControlEvents:UIControlEventValueChanged];
-    [self.tableView insertSubview:self.refreshControl atIndex:0];
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(loadTweets)
+              forControlEvents:UIControlEventValueChanged];
+    [_tableView insertSubview:_refreshControl atIndex:0];
     
-    self.navigationItem.title = self.user.name;
+    self.navigationItem.title = _user.name;
 }
 
+#pragma mark - Load data
+
 - (void)loadTweets {
-    [[APIManager shared] getUserTimelineWithScreenName:self.user.screenName completion:^(NSArray *tweets, NSError *error) {
-        
+    [[APIManager shared] getUserTimelineWithScreenName:_user.screenName
+                                            completion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             self.tweetArray = (NSMutableArray *) tweets;
             NSLog(@"😎😎😎 Successfully loaded user's timeline");
@@ -58,49 +67,46 @@ NSString *const kHeaderViewID = @"ProfileCell";
             
             NSLog(@"😫😫😫 Error getting user's timeline: %@", errorMessage);
         }
-        
         [self.refreshControl endRefreshing];
     }];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.tweetArray.count;
+#pragma mark - User actions
+
+- (IBAction)onTapBack:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+#pragma mark - UITableViewDataSource methods
+
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section {
+    return _tweetArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kTweetCellID];
-    cell.tweet = self.tweetArray[indexPath.row];
+    cell.tweet = _tweetArray[indexPath.row];
     
     [cell refreshData];
     
     return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView
+viewForHeaderInSection:(NSInteger)section {
     ProfileCell *header = [tableView dequeueReusableCellWithIdentifier:kHeaderViewID];
-    header.user = self.user;
+    header.user = _user;
     
     [header refreshData];
     
     return header;
 }
 
-- (IBAction)onTapBack:(id)sender {
-    [self dismissViewControllerAnimated:true completion:nil];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
