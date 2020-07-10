@@ -78,21 +78,9 @@ static NSString *const userTimelineURLString = @"1.1/statuses/user_timeline.json
       success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
         NSMutableArray *const tweets  = [Tweet tweetsWithArray:tweetDictionaries];
         
-        // Manually cache the tweets. If the request fails, restore from cache if possible.
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweets];
-        [[NSUserDefaults standardUserDefaults] setValue:data forKey:kHomeTimelineTweetsKey];
-        
         completion(tweets, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSArray *tweets = nil;
-
-        // Fetch tweets from cache if possible
-        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:kHomeTimelineTweetsKey];
-        if (data != nil) {
-            tweets = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        }
-        
-        completion(tweets, error);
+        completion(nil, error);
     }];
 }
 
